@@ -35,40 +35,51 @@ export ARM_CLIENT_SECRET=your_password
 
 export ARM_TENANT_ID=your_tenant_id
 
+export TF_VAR_client_id=your_appId
+
+export TF_VAR_client_secret=your_password
+
+
 ## Test
-Create directory
 
-Create file
+## AKS
 
-```
-provider "azurerm" {
-  version = "~>2.0"
-  features {}
-}
-```
+### Set Variables
 
+RG_STATE_FILES=rg-k8s-state
 
+DEF_LOCATION=westeurope
 
-az group create -n k8s-state -l westeurope
-
-az storage account create -n k8sstorage123 -g k8s-state -l westeurope --sku Standard_LRS
-
-az storage account keys list -g k8s-state -n k8sstorage123
-
-az storage container create -n tfstate --account-name k8sstorage123 --account-key +2adfUMpKgzrmpLdLAKsLrHBJpp8kEIayCctTeohmjH7N3dQIfXgr1cybokgFdWSwoU8affu1jimSurwGBx1Bg==
-
-terraform init -backend-config="storage_account_name=k8sstorage123" -backend-config="container_name=tfstate" -backend-config="access_key=+2adfUMpKgzrmpLdLAKsLrHBJpp8kEIayCctTeohmjH7N3dQIfXgr1cybokgFdWSwoU8affu1jimSurwGBx1Bg==" -backend-config="key=k8s.tfstate"
+ST_ACCOUNT=k8sstorage123
 
 
-export TF_VAR_client_id=07a3c497-f56d-416f-ab06-24fd5e391b7c
-export TF_VAR_client_secret=491c7cc9-e7ea-4f5e-9ad8-2e0f9dce27f9
+### Create Resource Group
+
+az group create -n $RG_STATE_FILES -l $DEF_LOCATION
+
+### Create Storage Account
+az storage account create -n $ST_ACCOUNT -g $RG_STATE_FILES -l $DEF_LOCATION --sku Standard_LRS
+
+### Get access key
+KEY=$(echo $(az storage account keys list -g $RG_STATE_FILES -n $ST_ACCOUNT --query "[0].value") | tr -d '"')
+
+### Create container
+az storage container create -n tfstate --account-name $ST_ACCOUNT --account-key $KEY
+
+### Initialize TF
+terraform init -backend-config="storage_account_name=$ST_ACCOUNT" -backend-config="container_name=tfstate" -backend-config="access_key=$KEY" -backend-config="key=k8s.tfstate"
+
+### Generate ssh key
 
 ssh-keygen -m PEM -t rsa -b 4096
 
+### Plan TF
 terraform plan -out out.plan
 
+### Apply TF
 terraform apply out.plan
 
+### Get config
 export KUBECONFIG=./azurek8s
 
 echo "$(terraform output kube_config)" > ./azurek8s
