@@ -50,7 +50,10 @@ RG_STATE_FILES=rg-k8s-state
 
 DEF_LOCATION=westeurope
 
-ST_ACCOUNT=k8sstorage123
+STORAGE_ACCOUNT_NAME=k8sstorage123
+
+CONTAINER_NAME=tfstate
+KEY=k8s.tfstate
 
 
 ### Create Resource Group
@@ -58,16 +61,16 @@ ST_ACCOUNT=k8sstorage123
 az group create -n $RG_STATE_FILES -l $DEF_LOCATION
 
 ### Create Storage Account
-az storage account create -n $ST_ACCOUNT -g $RG_STATE_FILES -l $DEF_LOCATION --sku Standard_LRS
+az storage account create -n $STORAGE_ACCOUNT_NAME -g $RG_STATE_FILES -l $DEF_LOCATION --sku Standard_LRS
 
 ### Get access key
-KEY=$(echo $(az storage account keys list -g $RG_STATE_FILES -n $ST_ACCOUNT --query "[0].value") | tr -d '"')
+ACCESS_KEY=$(echo $(az storage account keys list -g $RG_STATE_FILES -n $STORAGE_ACCOUNT_NAME --query "[0].value") | tr -d '"')
 
 ### Create container
-az storage container create -n tfstate --account-name $ST_ACCOUNT --account-key $KEY
+az storage container create -n $CONTAINER_NAME --account-name $STORAGE_ACCOUNT_NAME --account-key $ACCESS_KEY
 
 ### Initialize TF
-terraform init -backend-config="storage_account_name=$ST_ACCOUNT" -backend-config="container_name=tfstate" -backend-config="access_key=$KEY" -backend-config="key=k8s.tfstate"
+terraform init -backend-config="storage_account_name=$STORAGE_ACCOUNT_NAME" -backend-config="container_name=$CONTAINER_NAME" -backend-config="access_key=$ACCESS_KEY" -backend-config="key=$KEY"
 
 ### Generate ssh key
 
