@@ -3,13 +3,6 @@ module "acme-rg" {
     name     = var.resource_group_name
     location = var.location
 }
-
-
-resource "azurerm_resource_group" "k8s" {
-    name     = var.resource_group_name
-    location = var.location
-}
-
 resource "azurerm_kubernetes_cluster" "k8s" {
     name                = var.cluster_name
     location            = azurerm_resource_group.k8s.location
