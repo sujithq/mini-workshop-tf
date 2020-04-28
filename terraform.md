@@ -53,6 +53,7 @@ DEF_LOCATION=westeurope
 STORAGE_ACCOUNT_NAME=k8sstorage123
 
 CONTAINER_NAME=tfstate
+
 KEY=k8s.tfstate
 
 
