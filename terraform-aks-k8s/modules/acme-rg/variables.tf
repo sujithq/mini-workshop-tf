@@ -31,3 +31,7 @@ variable client_id {
 variable client_secret {
     description = "Client Secret"
 }
+
+variable dns_prefix {
+    description = "DNS Prefix"
+}
