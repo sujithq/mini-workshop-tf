@@ -1,9 +1,33 @@
-variable name {
-    default = "azure-k8stest"
+variable cluster_name {
+    description = "Cluster Name"
+}
+
+variable resource_group_name {
     description = "Resource Group Name"
 }
 
 variable location {
-    default = "WestEurope"
-    description = "Resource Group Location"
+    description = "Location"
+    default = "westeurope"
+}
+
+variable ssh_public_key {
+    description = "Public Key"
+}
+
+variable agent_count {
+    description = "Node Count"
+    default = 3
+}
+
+variable vm_size {
+    description = "VM Size"
+}
+
+variable client_id {
+    description = "Client Id"
+}
+
+variable client_secret {
+    description = "Client Secret"
 }
