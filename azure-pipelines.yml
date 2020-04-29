@@ -6,11 +6,22 @@
 
 trigger:
 - master
+- dev*
+- release/*
+- hotfix/*
 
 pool:
-  vmImage: 'ubuntu-latest'
-
+  vmImage: 'ubuntu-18.04'
+#  name: Azure Pipelines
 steps:
-- task: TerraformInstaller@0
+- task: CopyFiles@2
+  displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
   inputs:
-    terraformVersion: '0.12.24'
+    SourceFolder: 'terraform-aks-k8s'
+    TargetFolder: '$(build.artifactstagingdirectory)'
+
+- task: PublishPipelineArtifact@1
+  displayName: 'Publish Pipeline Artifact'
+  inputs:
+    targetPath: '$(build.artifactstagingdirectory)'
+    artifact: tf
