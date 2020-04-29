@@ -3,6 +3,11 @@ resource "azurerm_resource_group" "k8s" {
     location = var.location
 }
 
+data "azurerm_key_vault_secret" "client_secret" {
+name = "client-secret"
+vault_uri = "https://kvk8s.vault.azure.net/"
+}
+
 module "acme-rg" {
     source                  = "./modules/acme-rg"
     cluster_name            = var.cluster_name
@@ -13,5 +18,5 @@ module "acme-rg" {
     agent_count             =  var.agent_count
     vm_size                 = var.vm_size 
     client_id               = var.client_id 
-    client_secret           = var.client_secret 
+    client_secret           = data.azurerm_key_vault_secret.client_secret.value 
 }
