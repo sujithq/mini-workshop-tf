@@ -45,6 +45,7 @@ export TF_VAR_client_secret=your_password
 ## AKS
 
 ### Set Variables
+NAME=
 
 RG_STATE_FILES=rg-k8s-state
 
@@ -54,7 +55,7 @@ STORAGE_ACCOUNT_NAME=k8sstorage123
 
 CONTAINER_NAME=tfstate
 
-KEY=k8s.tfstate
+KEY=k8s.tfstate$NAME
 
 
 ### Create Resource Group
