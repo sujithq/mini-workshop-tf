@@ -12,7 +12,8 @@ trigger:
 
 pool:
   vmImage: 'ubuntu-18.04'
-  name: Azure Pipelines
+#  name: Azure Pipelines
+  name: $(pool-name)
 steps:
 - task: CopyFiles@2
   displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
