@@ -35,3 +35,11 @@ variable client_secret {
 variable dns_prefix {
     description = "DNS Prefix"
 }
+
+variable kv_name {
+    description = "Key Vault Name"
+}
+
+variable kv_rg {
+    description = "Key Vault Resource Group Name"
+}
