@@ -5,7 +5,7 @@ resource "azurerm_resource_group" "k8s" {
 
 data "azurerm_key_vault" "kv" {
   name                = var.kv_name
-  resource_group_name = kv_rg.kv_rg
+  resource_group_name = var.kv_rg
 }
 
 data "azurerm_key_vault_secret" "client_secret" {
