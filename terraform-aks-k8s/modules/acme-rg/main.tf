@@ -18,6 +18,10 @@ resource "azurerm_kubernetes_cluster" "k8s" {
         name            = "agentpool"
         node_count      = var.agent_count
         vm_size         = var.vm_size
+        enable_auto_scaling   = true
+        max_count             = 3
+        min_count             = 1
+
     }
     service_principal {
         client_id     = var.client_id
