@@ -4,12 +4,12 @@ resource "azurerm_resource_group" "k8s" {
 }
 
 data "azurerm_key_vault" "kv" {
-  name                = "kvk8s"
-  resource_group_name = "rg-key-vault"
+  name                = var.kv_name
+  resource_group_name = kv_rg.kv_rg
 }
 
 data "azurerm_key_vault_secret" "client_secret" {
-name = "client-secret"
+name = var.kv_secret
 key_vault_id = data.azurerm_key_vault.kv.id
 }
 

@@ -201,12 +201,12 @@ resource "azurerm_resource_group" "k8s" {
 }
 
 data "azurerm_key_vault" "kv" {
-  name                = "kvk8s"
-  resource_group_name = "rg-key-vault"
+  name                = var.kv_name
+  resource_group_name = kv_rg.kv_rg
 }
 
 data "azurerm_key_vault_secret" "client_secret" {
-name = "client-secret"
+name = var.kv_secret
 key_vault_id = data.azurerm_key_vault.kv.id
 }
 
@@ -240,10 +240,10 @@ Paste code and save
 variable resource_group_name {
     default = "azure-k8stest"
 }
-
 variable "client_id" {}
-
 variable "client_secret" {}
+
+
 
 variable "agent_count" {
     default = 1
@@ -275,6 +275,11 @@ variable kv_name {
 
 variable kv_rg {
     description = "Key Vault Resource Group Name"
+}
+
+variable kv_secret {
+    description = "Key Vault Resource Group Name"
+    default = "client-secret"
 }
 ```
 

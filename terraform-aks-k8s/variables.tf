@@ -37,3 +37,8 @@ variable kv_name {
 variable kv_rg {
     description = "Key Vault Resource Group Name"
 }
+
+variable kv_secret {
+    description = "Key Vault Resource Group Name"
+    default = "client-secret"
+}
