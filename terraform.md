@@ -66,6 +66,7 @@ az group create -n $RG_STATE_FILES -l $DEF_LOCATION
 az storage account create -n $STORAGE_ACCOUNT_NAME -g $RG_STATE_FILES -l $DEF_LOCATION --sku Standard_LRS
 
 ### Get access key
+ACCESS_KEY=$(az storage account keys list -g $RG_STATE_FILES -n $STORAGE_ACCOUNT_NAME --query "[0].value" -o tsv)
 ACCESS_KEY=$(echo $(az storage account keys list -g $RG_STATE_FILES -n $STORAGE_ACCOUNT_NAME --query "[0].value") | tr -d '"')
 
 ### Create container
