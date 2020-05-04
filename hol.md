@@ -285,7 +285,6 @@ variable kv_secret {
 
 ### Create Module
 ``` bash
-cd
 mkdir modules
 cd modules
 mkdir acme-rg
@@ -438,6 +437,8 @@ export TF_VAR_resource_group_name=$RESOURCE_GROUP_NAME
 export TF_VAR_cluster_name=$CLUSTER_NAME
 
 # Initialize Terraform
+cd ..
+cd ..
 terraform init -backend-config="storage_account_name=$STORAGE_ACCOUNT_NAME" -backend-config="container_name=$CONTAINER_NAME" -backend-config="access_key=$ACCESS_KEY" -backend-config="key=$KEY"
 ```
 
