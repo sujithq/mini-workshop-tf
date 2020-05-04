@@ -452,7 +452,7 @@ terraform plan -out out.plan
 ### Show Terraform
 
 ``` bash
-# Execute Plan
+# Execute show
 terraform show out.plan
 ```
 
