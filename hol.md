@@ -449,6 +449,13 @@ terraform init -backend-config="storage_account_name=$STORAGE_ACCOUNT_NAME" -bac
 terraform plan -out out.plan
 ```
 
+### Show Terraform
+
+``` bash
+# Execute Plan
+terraform show out.plan
+```
+
 ### Apply Terraform
 
 ``` bash
